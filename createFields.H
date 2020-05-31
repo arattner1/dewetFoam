@@ -136,5 +136,27 @@ surfaceScalarField alphaPhiUn
     dimensionedScalar(phi.dimensions(), Zero)
 );
 
+Info<< "Reading field T\n" << endl;
+volScalarField T
+(
+    IOobject
+    (
+        "T",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
+
+//Special property curves for this phase change process
+Info<< "Reading material properties\n" << endl;
+interpolationTable<scalar> h_T( fileName("constant/metalProperties/hs_Ts.dat")  );
+interpolationTable<scalar> T_h( fileName("constant/metalProperties/Ts_hs.dat")  );
+
+#include "createh.H"
+
 #include "createMRF.H"
 #include "createFvOptions.H"
