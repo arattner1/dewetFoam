@@ -100,7 +100,6 @@ forAll(hBf, patchi)
 
 	if (isA<inletOutletFvPatchScalarField>(hBf[patchi]))
 	{
-		Info<< "A" << endl;
 		inletOutletFvPatchScalarField& hPatch = refCast<inletOutletFvPatchScalarField>(hBf[patchi]);
 		const inletOutletFvPatchScalarField& TPatch = refCast<inletOutletFvPatchScalarField>( T.boundaryFieldRef()[patchi] );
 		hPatch.refValue() = h_T.interpolateValues( TPatch.refValue() );

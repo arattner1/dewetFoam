@@ -18,6 +18,7 @@ FoamFile
 defaultFieldValues
 (
     volScalarFieldValue alpha.metal 0
+	volScalarFieldValue T 300
 );
 
 regions
@@ -30,6 +31,16 @@ regions
             volScalarFieldValue alpha.metal 1
         );
     }
+	
+	boxToCell
+    {
+        box (0.0025 0.0003 0) (0.0075 0.0005 1);
+        fieldValues
+        (
+			volScalarFieldValue T 800
+        );
+    }
+	
 );
 
 

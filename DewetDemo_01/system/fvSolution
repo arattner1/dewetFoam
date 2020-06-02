@@ -54,11 +54,18 @@ solvers
         relTol          0;
     }
 
-    U
+
+	"(U|h)"
     {
         solver          smoothSolver;
         smoother        symGaussSeidel;
-        tolerance       1e-06;
+        tolerance       1e-6;
+        relTol          0.01;
+    }
+
+    "(U|h)Final"
+    {
+        $U;
         relTol          0;
     }
 }
@@ -66,7 +73,7 @@ solvers
 PIMPLE
 {
     momentumPredictor   no;
-    nOuterCorrectors    1;
+    nOuterCorrectors    2;
     nCorrectors         3;
     nNonOrthogonalCorrectors 0;
 }

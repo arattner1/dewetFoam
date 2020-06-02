@@ -11,11 +11,11 @@ cp_S = 500; %J/kg-K
 cp_L = 600; %J/kg-K
 h_SL = 100E3; %J/kg-K
 
-rho_L = 6000;
+rho_L = 5000;
 rho_S = 5000;
 
 mu_L = 0.005; %kg/m-s
-mu_S = 100*mu_L; %kg/m-s
+mu_S = 1000*mu_L; %kg/m-s
 
 k_S = 30; %W/m-K
 k_L = 10; %W/m-K
@@ -45,13 +45,13 @@ hs = [0 cumsum( cps(2:end).*( Ts(2:end) - Ts(1:end-1) ) ) ];
 alphas = rhos.*cps./ks;
 
 %Write out to text
-WriteOut(cps, Ts, 'cps_Ts.dat');
-WriteOut(rhos, Ts, 'rhos_Ts.dat');
-WriteOut(mus, Ts, 'mus_Ts.dat');
-WriteOut(ks, Ts, 'ks_Ts.dat');
-WriteOut(alphas, Ts, 'alphas_Ts.dat');
-WriteOut(Ts, hs, 'hs_Ts.dat');
-WriteOut(hs, Ts, 'Ts_hs.dat');
+WriteOut(Ts, cps, 'Ts_cps.dat');
+WriteOut(Ts, rhos, 'Ts_rhos.dat');
+WriteOut(Ts, mus, 'Ts_mus.dat');
+WriteOut(Ts, ks, 'Ts_ks.dat');
+WriteOut(Ts, alphas, 'Ts_alphas.dat');
+WriteOut(Ts, hs, 'Ts_hs.dat');
+WriteOut(hs, Ts, 'hs_Ts.dat');
 
 function WriteOut(A, B, Name)
     FID = fopen(strcat('constant', filesep, 'metalProperties', filesep, Name),'w');

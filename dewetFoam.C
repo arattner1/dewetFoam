@@ -52,6 +52,7 @@ Description
 #include "fvcSmooth.H"
 #include "interpolationTable.H"
 #include "inletOutletFvPatchFields.H"
+#include "PhaseChangeViscosity.H"
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -161,7 +162,10 @@ int main(int argc, char *argv[])
                 continue;
             }
 
+			#include "ThermoCapillary.H"
+
             #include "UEqn.H"
+			#include "EEqn.H"
 
             // --- Pressure corrector loop
             while (pimple.correct())

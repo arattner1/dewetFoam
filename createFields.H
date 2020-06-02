@@ -30,6 +30,20 @@ volVectorField U
 
 #include "createPhi.H"
 
+Info<< "Reading field T\n" << endl;
+volScalarField T
+(
+    IOobject
+    (
+        "T",
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh
+);
+
 
 Info<< "Reading transportProperties\n" << endl;
 immiscibleIncompressibleTwoPhaseMixture mixture(U, phi);
@@ -68,6 +82,20 @@ surfaceScalarField rhoPhi
         IOobject::NO_WRITE
     ),
     fvc::interpolate(rho)*phi
+);
+
+//alpha1 Mass flux
+surfaceScalarField rhoPhi1
+(
+    IOobject
+    (
+        "rhoPhi1",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::NO_WRITE
+    ),
+    fvc::interpolate(alpha1*rho1)*phi
 );
 
 
@@ -136,25 +164,65 @@ surfaceScalarField alphaPhiUn
     dimensionedScalar(phi.dimensions(), Zero)
 );
 
-Info<< "Reading field T\n" << endl;
-volScalarField T
-(
-    IOobject
-    (
-        "T",
-        runTime.timeName(),
-        mesh,
-        IOobject::MUST_READ,
-        IOobject::AUTO_WRITE
-    ),
-    mesh
-);
+
 
 
 //Special property curves for this phase change process
 Info<< "Reading material properties\n" << endl;
-interpolationTable<scalar> h_T( fileName("constant/metalProperties/hs_Ts.dat")  );
-interpolationTable<scalar> T_h( fileName("constant/metalProperties/Ts_hs.dat")  );
+interpolationTable<scalar> h_T( fileName("constant/metalProperties/Ts_hs.dat")  );
+interpolationTable<scalar> k_T( fileName("constant/metalProperties/Ts_ks.dat")  );
+interpolationTable<scalar> cp_T( fileName("constant/metalProperties/Ts_cps.dat")  );
+interpolationTable<scalar> T_h( fileName("constant/metalProperties/hs_Ts.dat")  );
+
+
+//Thermal diffusivity field
+surfaceScalarField k_cpf
+(
+	IOobject
+	(
+		"k_cpf",
+		runTime.timeName(),
+		mesh,
+		IOobject::NO_READ,
+		IOobject::NO_WRITE
+	),
+	mesh,
+	dimensionedScalar(dimMass/dimTime/dimLength, Zero)
+);
+
+
+//Thermocapillary force
+IOdictionary transportProperties
+(
+    IOobject
+    (
+        "transportProperties",
+        runTime.constant(),
+        mesh,
+        IOobject::MUST_READ_IF_MODIFIED,
+        IOobject::NO_WRITE
+    )
+);
+
+autoPtr<surfaceTensionModel> sigmaPtr(surfaceTensionModel::New(transportProperties, mesh));
+
+
+
+volVectorField ThermoCapillaryForce
+(
+	IOobject
+	(
+		"ThermoCapillaryForce",
+		runTime.timeName(),
+		mesh,
+		IOobject::NO_READ,
+		IOobject::AUTO_WRITE
+	),
+	mesh,
+	dimensionedVector(dimForce/dimLength/dimLength/dimLength, Zero )
+);
+
+
 
 #include "createh.H"
 
