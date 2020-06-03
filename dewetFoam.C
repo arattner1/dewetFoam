@@ -53,7 +53,8 @@ Description
 #include "interpolationTable.H"
 #include "inletOutletFvPatchFields.H"
 #include "PhaseChangeViscosity.H"
-
+#include "WallThermalResistanceFvPatchScalarField.H"
+#include "IOReferencer.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

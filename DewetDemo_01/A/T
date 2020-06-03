@@ -33,7 +33,9 @@ boundaryField
 	
     BottomWall
     {
-		type           fixedValue;
+		type           WallThermalResistance;
+		R_wall         0.0001; //m^2-K/W
+		T_inf          300; //K
         value          uniform 300;
 
     }

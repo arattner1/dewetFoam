@@ -1,3 +1,5 @@
+
+
 //Calculate thermal diffusivity field for faces:
 const surfaceScalarField T_f = fvc::interpolate(T);
 const scalarField& T_fp = T_f.primitiveField();

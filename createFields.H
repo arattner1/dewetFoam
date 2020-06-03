@@ -30,6 +30,40 @@ volVectorField U
 
 #include "createPhi.H"
 
+//Special property curves for this phase change process
+Info<< "Reading material properties\n" << endl;
+interpolationTable<scalar> h_T( fileName("constant/metalProperties/Ts_hs.dat")  );
+interpolationTable<scalar> k_T( fileName("constant/metalProperties/Ts_ks.dat")  );
+interpolationTable<scalar> cp_T( fileName("constant/metalProperties/Ts_cps.dat")  );
+interpolationTable<scalar> T_h( fileName("constant/metalProperties/hs_Ts.dat")  );
+
+//Globally accessible references of interpolators to go between T and properties
+IOReferencer<interpolationTable<scalar> > k_T_
+(
+	IOobject
+	(
+		"k_T",
+		runTime.timeName(),
+		mesh,
+		IOobject::NO_READ,
+		IOobject::NO_WRITE
+	),
+	k_T
+);
+IOReferencer<interpolationTable<scalar> > h_T_
+(
+	IOobject
+	(
+		"h_T",
+		runTime.timeName(),
+		mesh,
+		IOobject::NO_READ,
+		IOobject::NO_WRITE
+	),
+	h_T
+);
+
+
 Info<< "Reading field T\n" << endl;
 volScalarField T
 (
@@ -167,12 +201,8 @@ surfaceScalarField alphaPhiUn
 
 
 
-//Special property curves for this phase change process
-Info<< "Reading material properties\n" << endl;
-interpolationTable<scalar> h_T( fileName("constant/metalProperties/Ts_hs.dat")  );
-interpolationTable<scalar> k_T( fileName("constant/metalProperties/Ts_ks.dat")  );
-interpolationTable<scalar> cp_T( fileName("constant/metalProperties/Ts_cps.dat")  );
-interpolationTable<scalar> T_h( fileName("constant/metalProperties/hs_Ts.dat")  );
+
+
 
 
 //Thermal diffusivity field

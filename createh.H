@@ -8,7 +8,7 @@ const volScalarField::Boundary& tbf = T.boundaryField();
 wordList hbbt(tbf.size(), word::null);
 
 forAll(tbf, patchi)
-{
+{	
 /*
 	if (isA<fixedJumpFvPatchScalarField>(tbf[patchi]))
 	{
@@ -35,10 +35,16 @@ wordList hbt = tbf.types();
 
 forAll(tbf, patchi)
 {
-	if (isA<fixedValueFvPatchScalarField>(tbf[patchi]))
+	if (isA<WallThermalResistanceFvPatchScalarField>(tbf[patchi]))
+	{
+		hbt[patchi] = WallThermalResistanceFvPatchScalarField::typeName;
+	}
+	else if (isA<fixedValueFvPatchScalarField>(tbf[patchi]))
 	{
 		hbt[patchi] = fixedValueFvPatchScalarField::typeName;
 	}
+
+	
 /*
 	else if
 	(
@@ -98,6 +104,12 @@ forAll(hBf, patchi)
 {
 //	Info<< hBf[patchi].type() << endl;
 
+	if (isA<WallThermalResistanceFvPatchScalarField>(hBf[patchi]))
+	{	
+		WallThermalResistanceFvPatchScalarField& hPatch = refCast<WallThermalResistanceFvPatchScalarField>(hBf[patchi]);
+		const WallThermalResistanceFvPatchScalarField TPatch = refCast<WallThermalResistanceFvPatchScalarField>( T.boundaryFieldRef()[patchi] );
+		hPatch.copyParams( TPatch );
+	}
 	if (isA<inletOutletFvPatchScalarField>(hBf[patchi]))
 	{
 		inletOutletFvPatchScalarField& hPatch = refCast<inletOutletFvPatchScalarField>(hBf[patchi]);
