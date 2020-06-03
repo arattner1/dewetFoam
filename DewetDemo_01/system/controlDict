@@ -17,19 +17,19 @@ FoamFile
 
 application     interFoam;
 
-startFrom       startTime;
+startFrom       latestTime;
 
 startTime       0;
 
 stopAt          endTime;
 
-endTime         0.2;
+endTime         0.0001;
 
-deltaT          1E-6;
+deltaT          1E-8;
 
 writeControl    adjustable;
 
-writeInterval   0.0002;
+writeInterval   0.000001;
 
 purgeWrite      0;
 
@@ -39,7 +39,7 @@ writePrecision  6;
 
 writeCompression off;
 
-timeFormat      general;
+timeFormat      fixed;
 
 timePrecision   6;
 
@@ -50,6 +50,6 @@ adjustTimeStep  yes;
 maxCo           0.4;
 maxAlphaCo      0.4;
 
-maxDeltaT       0.00001;
+maxDeltaT       1E-7;
 
 // ************************************************************************* //

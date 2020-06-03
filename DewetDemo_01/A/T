@@ -20,15 +20,9 @@ internalField   uniform 300;
 
 boundaryField
 {
-    SideA
+    Sides
     {
-        type            cyclic;
-    }
-
-
-    SideB
-    {
-        type            cyclic;
+        type            symmetry;
     }
 	
     BottomWall
